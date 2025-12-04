@@ -97,6 +97,20 @@ lyrics
     10 Nontitle_Ah_Yeah_15.csv 막 귀들 방구석 박혀 밖에 나오질 … Nontitle   2015       Ah Yeah   
     # ℹ 1,572 more rows
 
+``` r
+head(lyrics)
+```
+
+    # A tibble: 6 × 5
+      file                    lyrics                track_type album_year song_title
+      <chr>                   <chr>                 <chr>      <chr>      <chr>     
+    1 Nontitle_Ah_Yeah_15.csv 아 예 아 예 근데 뭐라구요?…… Nontitle   2015       Ah Yeah   
+    2 Nontitle_Ah_Yeah_15.csv Yo $. Coup$, Here’s … Nontitle   2015       Ah Yeah   
+    3 Nontitle_Ah_Yeah_15.csv 등장과 동시에 들러리들 바닥에서…… Nontitle   2015       Ah Yeah   
+    4 Nontitle_Ah_Yeah_15.csv 침 흘리며 기절 그 위에서 수영해요…… Nontitle   2015       Ah Yeah   
+    5 Nontitle_Ah_Yeah_15.csv WOAH 옆구리 지방튜브 끼고 못 뜬… Nontitle   2015       Ah Yeah   
+    6 Nontitle_Ah_Yeah_15.csv 애들이 알리 있나      Nontitle   2015       Ah Yeah   
+
 ## Cleaning up the Data
 
 I used functions from tidy text to make it so that each word is its own
@@ -209,7 +223,7 @@ ggsave("Language Use for Each Album Year.png")
 
 ``` r
 ggplot(data=subset(lyricsdf, !is.na(language)), aes(x = album_year, fill = language)) +
-  geom_bar(position = "dodge") + xlab("Album Year") + ylab("Lyrics") + labs(fill = "Language") + labs(title = "Language Comparison by Album Year")
+  geom_bar(position = "fill") + xlab("Album Year") + ylab("Lyrics") + labs(fill = "Language") + labs(title = "Language Comparison by Album Year")
 ```
 
 ![](data_processing_files/figure-commonmark/unnamed-chunk-3-3.png)
@@ -307,9 +321,135 @@ ggsave("Language Use for Latest.png")
 
     Saving 7 x 5 in image
 
-Session Info
+``` r
+#filtering so that only the title tracks are included:
+filter(lyricsdf, song_title == "Adore U") ->> debuttitle
+filter(lyricsdf, song_title == "Left and Right") ->> midtitle
+filter(lyricsdf, song_title == "Super") ->> bestitle
+filter(lyricsdf, song_title == "Love Money Fame") ->> latesttitle
+ 
+#taking a closer look at the English lyrics in each title track: 
+filter(debuttitle, language == "English") ->> adoreu
+adoreu
+```
+
+    # A tibble: 39 × 6
+       file                 track_type album_year song_title word      language
+       <chr>                <chr>      <chr>      <chr>      <chr>     <chr>   
+     1 Title_Adore_U_15.csv Title      2015       Adore U    ayo       English 
+     2 Title_Adore_U_15.csv Title      2015       Adore U    ayo       English 
+     3 Title_Adore_U_15.csv Title      2015       Adore U    seventeen English 
+     4 Title_Adore_U_15.csv Title      2015       Adore U    yob       English 
+     5 Title_Adore_U_15.csv Title      2015       Adore U    you       English 
+     6 Title_Adore_U_15.csv Title      2015       Adore U    know      English 
+     7 Title_Adore_U_15.csv Title      2015       Adore U    what      English 
+     8 Title_Adore_U_15.csv Title      2015       Adore U    front     English 
+     9 Title_Adore_U_15.csv Title      2015       Adore U    u         English 
+    10 Title_Adore_U_15.csv Title      2015       Adore U    hoo       English 
+    # ℹ 29 more rows
 
 ``` r
+filter(midtitle, language == "English") ->> leftright
+leftright
+```
+
+    # A tibble: 184 × 6
+       file                        track_type album_year song_title   word  language
+       <chr>                       <chr>      <chr>      <chr>        <chr> <chr>   
+     1 Title_Left_and_Right_20.csv Title      2020       Left and Ri… left  English 
+     2 Title_Left_and_Right_20.csv Title      2020       Left and Ri… and   English 
+     3 Title_Left_and_Right_20.csv Title      2020       Left and Ri… right English 
+     4 Title_Left_and_Right_20.csv Title      2020       Left and Ri… left  English 
+     5 Title_Left_and_Right_20.csv Title      2020       Left and Ri… and   English 
+     6 Title_Left_and_Right_20.csv Title      2020       Left and Ri… right English 
+     7 Title_Left_and_Right_20.csv Title      2020       Left and Ri… left  English 
+     8 Title_Left_and_Right_20.csv Title      2020       Left and Ri… and   English 
+     9 Title_Left_and_Right_20.csv Title      2020       Left and Ri… right English 
+    10 Title_Left_and_Right_20.csv Title      2020       Left and Ri… seve… English 
+    # ℹ 174 more rows
+
+``` r
+filter(bestitle, language == "English") ->> super
+super
+```
+
+    # A tibble: 126 × 6
+       file               track_type album_year song_title word         language
+       <chr>              <chr>      <chr>      <chr>      <chr>        <chr>   
+     1 Title_Super_23.csv Title      2023       Super      seventeen    English 
+     2 Title_Super_23.csv Title      2023       Super      right        English 
+     3 Title_Super_23.csv Title      2023       Super      here         English 
+     4 Title_Super_23.csv Title      2023       Super      i            English 
+     5 Title_Super_23.csv Title      2023       Super      always       English 
+     6 Title_Super_23.csv Title      2023       Super      win          English 
+     7 Title_Super_23.csv Title      2023       Super      darumdarimda English 
+     8 Title_Super_23.csv Title      2023       Super      hey          English 
+     9 Title_Super_23.csv Title      2023       Super      darumdarimda English 
+    10 Title_Super_23.csv Title      2023       Super      hey          English 
+    # ℹ 116 more rows
+
+``` r
+filter(latesttitle, language == "English") ->> lovemoneyfame
+lovemoneyfame
+```
+
+    # A tibble: 187 × 6
+       file                         track_type album_year song_title  word  language
+       <chr>                        <chr>      <chr>      <chr>       <chr> <chr>   
+     1 Title_Love_Money_Fame_24.csv Title      2024       Love Money… we    English 
+     2 Title_Love_Money_Fame_24.csv Title      2024       Love Money… the   English 
+     3 Title_Love_Money_Fame_24.csv Title      2024       Love Money… best  English 
+     4 Title_Love_Money_Fame_24.csv Title      2024       Love Money… music English 
+     5 Title_Love_Money_Fame_24.csv Title      2024       Love Money… anot… English 
+     6 Title_Love_Money_Fame_24.csv Title      2024       Love Money… one   English 
+     7 Title_Love_Money_Fame_24.csv Title      2024       Love Money… dj    English 
+     8 Title_Love_Money_Fame_24.csv Title      2024       Love Money… khal… English 
+     9 Title_Love_Money_Fame_24.csv Title      2024       Love Money… i     English 
+    10 Title_Love_Money_Fame_24.csv Title      2024       Love Money… never English 
+    # ℹ 177 more rows
+
+``` r
+#visualization for English lyrics in 2024 title track:
+ggplot(data=subset(lovemoneyfame, !is.na(language)), aes(y = word, fill = word)) +
+  geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Love, Money, Fame'") + theme(axis.title.y=element_blank(),
+         axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+```
+
+![](data_processing_files/figure-commonmark/unnamed-chunk-3-10.png)
+
+``` r
+#visualization for English lyrics in 2023 title track: 
+ggplot(data=subset(super, !is.na(language)), aes(y = word, fill = word)) +
+  geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Super'") + theme(axis.title.y=element_blank(),
+         axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+```
+
+![](data_processing_files/figure-commonmark/unnamed-chunk-3-11.png)
+
+``` r
+#visualization for English lyrics in 2020 title track: 
+ggplot(data=subset(leftright, !is.na(language)), aes(y = word, fill = word)) +
+  geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Left and Right'") + theme(axis.title.y=element_blank(),
+         axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+```
+
+![](data_processing_files/figure-commonmark/unnamed-chunk-3-12.png)
+
+``` r
+#visualization for English lyrics in 2015 title track: 
+ggplot(data=subset(adoreu, !is.na(language)), aes(y = word, fill = word)) +
+  geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Adore U'") + theme(axis.title.y=element_blank(),
+         axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+```
+
+![](data_processing_files/figure-commonmark/unnamed-chunk-3-13.png)
+
+``` r
+#Session Info
 sessionInfo()
 ```
 
