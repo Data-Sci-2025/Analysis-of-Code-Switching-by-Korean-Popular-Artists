@@ -58,6 +58,7 @@ lyrics = firstfiles |>
 
 lyrics
     
+head(lyrics)
 
 ```
 
@@ -108,8 +109,9 @@ ggplot(data=subset(lyricsdf, !is.na(language)), aes(x = language, fill = album_y
   geom_bar(position = "dodge") + xlab("Language") + ylab("Lyrics") + labs(fill = "Album Year")  + labs(title = "Language Use for Each Album Year")
 ggsave("Language Use for Each Album Year.png")
 
+
 ggplot(data=subset(lyricsdf, !is.na(language)), aes(x = album_year, fill = language)) +
-  geom_bar(position = "dodge") + xlab("Album Year") + ylab("Lyrics") + labs(fill = "Language") + labs(title = "Language Comparison by Album Year")
+  geom_bar(position = "fill") + xlab("Album Year") + ylab("Lyrics") + labs(fill = "Language") + labs(title = "Language Comparison by Album Year")
 ggsave("Language Comparison by Album Year.png")
 
 #...by song:
@@ -146,18 +148,55 @@ ggplot(data=subset(byalbum24, !is.na(language)), aes(y = song_title, fill = lang
   geom_bar(position = "fill") + xlab("Lyrics") + ylab("Songs") + labs(title= "Language Use for Latest (2024) Album")
 ggsave("Language Use for Latest.png")
 
+#filtering so that only the title tracks are included:
+filter(lyricsdf, song_title == "Adore U") ->> debuttitle
+filter(lyricsdf, song_title == "Left and Right") ->> midtitle
+filter(lyricsdf, song_title == "Super") ->> bestitle
+filter(lyricsdf, song_title == "Love Money Fame") ->> latesttitle
+ 
+#taking a closer look at the English lyrics in each title track: 
+filter(debuttitle, language == "English") ->> adoreu
+adoreu
 
-  
+filter(midtitle, language == "English") ->> leftright
+leftright
 
-```
+filter(bestitle, language == "English") ->> super
+super
+
+filter(latesttitle, language == "English") ->> lovemoneyfame
+lovemoneyfame
+
+#visualization for English lyrics in 2024 title track:
+ggplot(data=subset(lovemoneyfame, !is.na(language)), aes(y = word, fill = word)) +
+  geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Love, Money, Fame'") + theme(axis.title.y=element_blank(),
+         axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+#visualization for English lyrics in 2023 title track: 
+ggplot(data=subset(super, !is.na(language)), aes(y = word, fill = word)) +
+  geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Super'") + theme(axis.title.y=element_blank(),
+         axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+#visualization for English lyrics in 2020 title track: 
+ggplot(data=subset(leftright, !is.na(language)), aes(y = word, fill = word)) +
+  geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Left and Right'") + theme(axis.title.y=element_blank(),
+         axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+#visualization for English lyrics in 2015 title track: 
+ggplot(data=subset(adoreu, !is.na(language)), aes(y = word, fill = word)) +
+  geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Adore U'") + theme(axis.title.y=element_blank(),
+         axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
 
 
 
 
 
 
-Session Info
-```{r}
+#Session Info
 sessionInfo()
 ```
 
