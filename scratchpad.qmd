@@ -58,7 +58,6 @@ lyrics = firstfiles |>
 
 lyrics
     
-head(lyrics)
 
 ```
 
@@ -148,12 +147,15 @@ ggplot(data=subset(byalbum24, !is.na(language)), aes(y = song_title, fill = lang
   geom_bar(position = "fill") + xlab("Lyrics") + ylab("Songs") + labs(title= "Language Use for Latest (2024) Album")
 ggsave("Language Use for Latest.png")
 
+
 #filtering so that only the title tracks are included:
 filter(lyricsdf, song_title == "Adore U") ->> debuttitle
 filter(lyricsdf, song_title == "Left and Right") ->> midtitle
 filter(lyricsdf, song_title == "Super") ->> bestitle
 filter(lyricsdf, song_title == "Love Money Fame") ->> latesttitle
  
+
+
 #taking a closer look at the English lyrics in each title track: 
 filter(debuttitle, language == "English") ->> adoreu
 adoreu
