@@ -18,18 +18,16 @@ data_subfolder <- "Seventeen_Lyrics"
 
 # Get full file paths of all CSVs in the subfolder
 files <- list.files(path = data_subfolder, pattern = "\\.csv$", full.names = TRUE)
+firstfiles <- read_csv(files,id = "file", na = c("", "na", "n/a", "N/A", "NA", "Na"))
 
 # Read all CSVs into a list of data frames
-data_list <- lapply(files, read.csv)
+# <- read_csv(id = "file", na = c("", "na", "n/a", "N/A", "NA", "Na"))
 
-# (Optional) Combine all into one data frame
-firstfiles <- do.call(rbind, data_list)
 
 #firstfiles$file = as.character(file)
 firstfiles$track_type = str_extract(firstfiles$file, "Title|Nontitle")
 firstfiles$album_year = str_extract(firstfiles$file, "15|20|23|24")
 
-colnames(firstfiles) <- tolower(colnames(firstfiles))
  
 #separating out the song names using str_detect and mutate functions
 lyrics = firstfiles |>
@@ -67,6 +65,7 @@ lyrics = firstfiles |>
     str_detect(album_year, "15") ~ "2015")
   ) ->> lyrics
 
+colnames(lyrics) <- tolower(colnames(lyrics))
 lyrics
     
 ```
