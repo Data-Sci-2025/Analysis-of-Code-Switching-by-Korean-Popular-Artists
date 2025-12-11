@@ -13,16 +13,23 @@ library(dplyr)
 library(stringr)
 library(tidytext)
 
-#reading multiple files of data into R and replacing NA's to present as true NA's
-firstfiles <- list.files(pattern=".csv") |>
-  read_csv(id = "file", na = c("", "na", "n/a", "N/A", "NA", "Na"))
+# Path to the subfolder
+data_subfolder <- "Seventeen_Lyrics"
 
-#putting each song's metadata in separate columns from file names
+# Get full file paths of all CSVs in the subfolder
+files <- list.files(path = data_subfolder, pattern = "\\.csv$", full.names = TRUE)
+
+# Read all CSVs into a list of data frames
+data_list <- lapply(files, read.csv)
+
+# (Optional) Combine all into one data frame
+firstfiles <- do.call(rbind, data_list)
+
+#firstfiles$file = as.character(file)
 firstfiles$track_type = str_extract(firstfiles$file, "Title|Nontitle")
 firstfiles$album_year = str_extract(firstfiles$file, "15|20|23|24")
 
-#making the column names uniformly lowercase
- colnames(firstfiles) <- tolower(colnames(firstfiles))
+colnames(firstfiles) <- tolower(colnames(firstfiles))
  
 #separating out the song names using str_detect and mutate functions
 lyrics = firstfiles |>
@@ -62,7 +69,6 @@ lyrics = firstfiles |>
 
 lyrics
     
-
 ```
 
 ## Cleaning up the Data
