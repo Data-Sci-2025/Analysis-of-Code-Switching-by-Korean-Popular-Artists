@@ -17,22 +17,28 @@ format: gfm
 The code below shows the code I used to read in the data, where each song is its own csv file. I then created columns for the metadata associated with each song. 
 
 ```{r}
+
 #reading in packages I will need
 library(tidyverse)
 library(dplyr)
 library(stringr)
 library(tidytext)
 
-#reading multiple files of data into R and replacing NA's in file to present as true NA's
-firstfiles <- list.files(pattern=".csv") |>
-  read_csv(id = "file", na = c("", "na", "n/a", "N/A", "NA", "Na"))
+# Path to the subfolder
+data_subfolder <- "Seventeen_Lyrics"
 
-#putting each song's metadata in separate columns from file names
+# Get full file paths of all CSVs in the subfolder
+files <- list.files(path = data_subfolder, pattern = "\\.csv$", full.names = TRUE)
+firstfiles <- read_csv(files,id = "file", na = c("", "na", "n/a", "N/A", "NA", "Na"))
+
+# Read all CSVs into a list of data frames
+# <- read_csv(id = "file", na = c("", "na", "n/a", "N/A", "NA", "Na"))
+
+
+#firstfiles$file = as.character(file)
 firstfiles$track_type = str_extract(firstfiles$file, "Title|Nontitle")
 firstfiles$album_year = str_extract(firstfiles$file, "15|20|23|24")
 
-#making the column names uniformly lowercase
- colnames(firstfiles) <- tolower(colnames(firstfiles))
  
 #separating out the song names using str_detect and mutate functions
 lyrics = firstfiles |>
@@ -70,6 +76,8 @@ lyrics = firstfiles |>
     str_detect(album_year, "15") ~ "2015")
   ) ->> lyrics
 
+colnames(lyrics) <- tolower(colnames(lyrics))
+lyrics
 ```
 
 ## Tidying the Data 
@@ -228,6 +236,59 @@ ggplot(data=subset(adoreu, !is.na(language)), aes(y = word, fill = word)) +
          axis.text.y=element_blank(),
         axis.ticks.y=element_blank())
 ```
+
+An overlook at the English lyrics of the title tracks shows an obvious higher frequency for words that are in the chorus. This is sensical-- the chorus in each song is repeated multiple times, instantly inflating the use of English in each song. However, these graphs when compared side by side suggest that there is possibly a change in word type over time. 
+Does the later releases include more complex English structures than their early counterparts? This is a trend that can be confirmed by looking closer at English **function words**. Function words signal the structural relationships that words have to one another and are generally quite lexically ambiguous. Examples of English function words would include articles 'the' and 'a', as well as prepositions, pronouns, conjunctions, and helping verbs. 
+
+```{r}
+term_freq <- lyricsdf %>%
+  count(song_title, word, sort = TRUE)
+
+term_freq
+
+
+term_freq_English <- term_freq |>
+  mutate(
+    word   = as.character(word),
+  language = case_when(
+  str_detect(word, "[a-zA-z 12345]") ~ "English",
+  str_detect(word, "[가-힣]") ~ "Korean",
+)) ->> term_freq_English
+
+term_freq_English
+
+function_words <- read_csv("function_words_200.csv")
+function_words |> rename("function_word" = "word")
+
+term_freq_English |>
+  mutate(
+    function_word = case_when(
+      str_match_all(word, [function_words]) ~ "Yes",
+      str_match_all(word, ![function_words) ~ "No"
+    )
+  )
+
+#song_tf_idf <- term_freq_English |>
+ # bind_tf_idf(song_title, word, n)
+
+
+#counting the rows of word column
+
+
+#combining words to count their frequency
+
+
+function_words <- read_csv("function_words_200.csv")
+function_words |> rename("function_word" = "word")
+
+
+
+```
+
+
+Interjections would also be classed as function words since they 'fill' pauses and express feeling or reaction in an utterance. However, interjections 
+
+
 
 ## Drawing Conclusions
 
