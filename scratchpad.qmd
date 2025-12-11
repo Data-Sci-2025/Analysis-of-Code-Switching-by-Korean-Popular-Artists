@@ -17,11 +17,14 @@ library(tidytext)
 firstfiles <- list.files(pattern=".csv") |>
   read_csv(id = "file", na = c("", "na", "n/a", "N/A", "NA", "Na"))
 
-# Putting each song's metadata in separate columns
+#putting each song's metadata in separate columns from file names
 firstfiles$track_type = str_extract(firstfiles$file, "Title|Nontitle")
 firstfiles$album_year = str_extract(firstfiles$file, "15|20|23|24")
+
+#making the column names uniformly lowercase
  colnames(firstfiles) <- tolower(colnames(firstfiles))
-#separating out song name using stringr function + mutate:
+ 
+#separating out the song names using str_detect and mutate functions
 lyrics = firstfiles |>
   mutate(
     file = as.character(file),
@@ -49,6 +52,7 @@ lyrics = firstfiles |>
     str_detect(file, "Title_Love_Money_Fame_24.csv") ~ "Love Money Fame",
     str_detect(file, "Title_One_to_Thirteen_24.csv") ~ "One to Thirteen",
     str_detect(file, "Title_Super_23.csv") ~ "Super"),
+  #reformatting the year of each album to be written out fully
   album_year = case_when(
     str_detect(album_year, "24") ~ "2024",
     str_detect(album_year, "23") ~ "2023",
