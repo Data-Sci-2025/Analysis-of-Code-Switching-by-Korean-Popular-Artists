@@ -5,6 +5,15 @@ knitr:
     fig.path: "images/"
 ---
 
+## Table of Contents  
+- [Reading in the Data](#reading-in-the-data)
+- [Tidying the Data](#tidying-the-data)
+- [Language Detection](#language-detection)
+- [Visualizing and Analyzing the Data](#visualizing-and-analyzing-the-data)
+- [Zooming in on Track Type](#zooming-in-on-track-type)
+- [English Highlights](#english-highlights)
+
+
 ## Reading in the Data
 
 Below shows the code I used to read in the data, where each song is its own csv file. I then created columns for the metadata associated with each song. 
@@ -153,19 +162,15 @@ filter(lyricsdf, album_year == "2015") ->> byalbum15
 #visualizing language use by album and song using objects from above ^: 
 ggplot(data=subset(byalbum15, !is.na(language)), aes(y = song_title, fill = language)) +
   geom_bar(position = "fill") + xlab("Lyrics") + ylab("Songs") + labs(title= "Language Use for Debut (2015) Album")
-ggsave("Language Use for Debut.png")
 
 ggplot(data=subset(byalbum20, !is.na(language)), aes(y = song_title, fill = language)) +
   geom_bar(position = "fill") + xlab("Lyrics") + ylab("Songs") + labs(title= "Language Use for Mid-Career (2020) Album")
-ggsave("Language Use for Mid-Career.png")
 
 ggplot(data=subset(byalbum23, !is.na(language)), aes(y = song_title, fill = language)) +
   geom_bar(position = "fill") + xlab("Lyrics") + ylab("Songs") + labs(title= "Language Use for Best-selling (2023) Album")
-ggsave("Language Use for Best-selling.png")
 
 ggplot(data=subset(byalbum24, !is.na(language)), aes(y = song_title, fill = language)) +
   geom_bar(position = "fill") + xlab("Lyrics") + ylab("Songs") + labs(title= "Language Use for Latest (2024) Album")
-ggsave("Language Use for Latest.png")
 
 #filtering so that only the title tracks are included:
 filter(lyricsdf, song_title == "Adore U") ->> debuttitle
@@ -221,7 +226,6 @@ ggplot(data=subset(adoreu, !is.na(language)), aes(y = word, fill = word)) +
   geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Adore U'") + theme(axis.title.y=element_blank(),
          axis.text.y=element_blank(),
         axis.ticks.y=element_blank())
-
 
 ```
 
@@ -294,16 +298,13 @@ ggplot(data=subset(lyric_wordtype, !is.na(language)), aes(x = album_year, fill =
 ```{r}
 ggplot(data=subset(function_subset), aes(x = album_year, fill = cont_func)) +
   geom_bar(position = "dodge") + xlab("Count") + ylab("Function Words") + labs(title= "English Function Words by Year")
-ggsave("Function Word Count by Album.png")
 
 
-
-
+#A rough visualization of what function words are in each album
 ggplot(data=subset(function_subset), aes(x = album_year, fill = word)) +
   geom_bar(position = "dodge") + xlab("Count") + ylab("Function Wordss") + labs(title= "English Function Words by Year") + theme(axis.title.y=element_blank(),
          axis.text.y=element_blank(),
         axis.ticks.y=element_blank())
-ggsave("English Function Words by Album Year.png")
 ```
 ```{r}
 #Session Info

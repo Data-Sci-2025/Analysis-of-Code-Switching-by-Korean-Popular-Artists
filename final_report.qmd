@@ -8,14 +8,7 @@ Seventeen is a boy group that holds the current record for best-selling album fr
 
 The Korean music industry has grown and is amassing global attention like never before. The sound of popular Korean music has changed due to this global audience, but the language choice of lyrics has also notably shifted in recent years to include more and more English. 
 
-
-## Previous Research 
-
-Communication Accommodation Theory (Howard Giles)
-Audience Design (Allan Bell)
-Case Study of Foxy Boston (Rickford, McNair-Knox, 1994)
-Speakers shift their speech (language, style, variety, etc.) to who they are addressing or who might be listening to or overhearing them.
-
+This study aims to serve as a case study of bilingual language use by popular Korean artists through the Korean pop boy group, Seventeen. By analyzing Seventeen's Korean and English lyrics at key junctures in their career, this research assumes the sociolinguistic theories of Communication Accommodation (Howard Giles) and Audience Design (Allan Bell) will provide an understanding of their reasoning behind any language trends. These core theories support the idea that speakers shift their speech to accommodate who they are addressing or who might be hearing/overhearing them and are extended to the communication medium of music lyrics for this case study.  
 
 ## Research Questions
 
@@ -29,7 +22,6 @@ I pose three research questions for this study:
 
 3. Does the type of track have any correlation to the language of the lyrics?
  - I predict that title tracks would include more English than Korean. The assumption behind this hypothesis is that title tracks are generally made to go viral. Title tracks receive the most advertisement and are always accompanied  by a music video and a catchy dance. If Seventeen (or their company) see that they are gaining popularity with an English-speaking demographic, I would find it plausible that they include more English in their next 'centerpiece' of a song. 
-
 
 
 ## Data Collection & Results 
@@ -53,6 +45,7 @@ However, it is more important to view the lyrics based off of **when** they were
 ![](images/Language Comparison By Album Year.png)  
 
 Some nuance is lost in this zoomed out view, so I also sorted the language use by song within each album. Then, I viewed the language use particularly of the "title" tracks of each album. Figures 4 through 7 show the language percentages of each track in each album.
+
 
 **Figure 4**  
 ![](images/Language Use for Debut.png)  
@@ -130,10 +123,7 @@ After conducting all of the above analysis, several conclusions can be made abou
 
 3. **There is only slightly more English in title vs non-title tracks.**
   - The third research question of this study aimed to investigate whether there is a difference in language use between title and non-title tracks in general. Figure 8 shows a slight favor towards English, but a closer look at the individual songs showed a more untidy distribution. 
-
-
   
-
 
 ## Research Limitations & Future Directions
 

@@ -1,4 +1,14 @@
 
+## Table of Contents
+
+- [Reading in the Data](#reading-in-the-data)
+- [Tidying the Data](#tidying-the-data)
+- [Language Detection](#language-detection)
+- [Visualizing and Analyzing the
+  Data](#visualizing-and-analyzing-the-data)
+- [Zooming in on Track Type](#zooming-in-on-track-type)
+- [English Highlights](#english-highlights)
+
 ## Reading in the Data
 
 Below shows the code I used to read in the data, where each song is its
@@ -221,13 +231,7 @@ ggplot(data=subset(lyricsdf, !is.na(language)), aes(x = language)) +
   geom_bar(fill = "salmon")+ theme_light() + xlab("Language") + ylab("Count") + labs(title = "Overall Language Use")
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-5-1.png)
-
-``` r
-ggsave("Overall Language Use.png")
-```
-
-    Saving 7 x 5 in image
+![](images/unnamed-chunk-5-1.png)
 
 ### Language Use by Album
 
@@ -255,7 +259,7 @@ ggplot(data=subset(lyricsdf, !is.na(language)), aes(x = language, fill = album_y
   geom_bar(position = "dodge") + xlab("Language") + ylab("Lyrics") + labs(fill = "Album Year")  + labs(title = "Language Use for Each Album Year")
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-6-1.png)
+![](images/unnamed-chunk-6-1.png)
 
 ``` r
 ggsave("Language Use for Each Album Year.png")
@@ -268,19 +272,9 @@ ggplot(data=subset(lyricsdf, !is.na(language)), aes(x = album_year, fill = langu
   geom_bar(position = "fill") + xlab("Album Year") + ylab("Lyrics") + labs(fill = "Language") + labs(title = "Language Comparison by Album Year")
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-6-2.png)
-
-``` r
-ggsave("Language Comparison by Album Year.png")
-```
-
-    Saving 7 x 5 in image
+![](images/unnamed-chunk-6-2.png)
 
 ### Zooming in on Track Type
-
-Some nuance is lost in this zoomed out view, so I also sorted the
-language use by song within each album. Then, I viewed the language use
-particularly of the “title” tracks of each album.
 
 ``` r
 #sorting songs into albums:
@@ -294,52 +288,28 @@ ggplot(data=subset(byalbum15, !is.na(language)), aes(y = song_title, fill = lang
   geom_bar(position = "fill") + xlab("Lyrics") + ylab("Songs") + labs(title= "Language Use for Debut (2015) Album")
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-7-1.png)
-
-``` r
-ggsave("Language Use for Debut.png")
-```
-
-    Saving 7 x 5 in image
+![](images/unnamed-chunk-7-1.png)
 
 ``` r
 ggplot(data=subset(byalbum20, !is.na(language)), aes(y = song_title, fill = language)) +
   geom_bar(position = "fill") + xlab("Lyrics") + ylab("Songs") + labs(title= "Language Use for Mid-Career (2020) Album")
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-7-2.png)
-
-``` r
-ggsave("Language Use for Mid-Career.png")
-```
-
-    Saving 7 x 5 in image
+![](images/unnamed-chunk-7-2.png)
 
 ``` r
 ggplot(data=subset(byalbum23, !is.na(language)), aes(y = song_title, fill = language)) +
   geom_bar(position = "fill") + xlab("Lyrics") + ylab("Songs") + labs(title= "Language Use for Best-selling (2023) Album")
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-7-3.png)
-
-``` r
-ggsave("Language Use for Best-selling.png")
-```
-
-    Saving 7 x 5 in image
+![](images/unnamed-chunk-7-3.png)
 
 ``` r
 ggplot(data=subset(byalbum24, !is.na(language)), aes(y = song_title, fill = language)) +
   geom_bar(position = "fill") + xlab("Lyrics") + ylab("Songs") + labs(title= "Language Use for Latest (2024) Album")
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-7-4.png)
-
-``` r
-ggsave("Language Use for Latest.png")
-```
-
-    Saving 7 x 5 in image
+![](images/unnamed-chunk-7-4.png)
 
 ``` r
 #filtering so that only the title tracks are included:
@@ -354,34 +324,30 @@ ggplot(data=subset(debuttitle, !is.na(language)), aes(x = language, fill = langu
   geom_bar(position = "dodge") + xlab("Language of Lyrics") + ylab("Count") + labs(title= "Language Breakdown for 'Adore U' (2015)")
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-7-5.png)
+![](images/unnamed-chunk-7-5.png)
 
 ``` r
 ggplot(data=subset(midtitle, !is.na(language)), aes(x = language, fill = language)) +
   geom_bar(position = "dodge") + xlab("Language of Lyrics") + ylab("Count") + labs(title= "Language Breakdown for 'Left and Right' (2020)")
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-7-6.png)
+![](images/unnamed-chunk-7-6.png)
 
 ``` r
 ggplot(data=subset(bestitle, !is.na(language)), aes(x = language, fill = language)) +
   geom_bar(position = "dodge") + xlab("Language of Lyrics") + ylab("Count") + labs(title= "Language Breakdown for 'Super' (2023)")
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-7-7.png)
+![](images/unnamed-chunk-7-7.png)
 
 ``` r
 ggplot(data=subset(latesttitle, !is.na(language)), aes(x = language, fill = language)) +
   geom_bar(position = "dodge") + xlab("Language of Lyrics") + ylab("Count") + labs(title= "Language Breakdown for 'Love, Money, Fame' (2024)")
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-7-8.png)
+![](images/unnamed-chunk-7-8.png)
 
 ### English Highlights
-
-The data gets more interesting as we zoom into what English words are
-found in the songs. Below are snapshots of the English makeup of the
-four title tracks from the albums in this study:
 
 ``` r
 #taking a closer look at the English lyrics in each title track: 
@@ -398,13 +364,7 @@ ggplot(data=subset(lovemoneyfame, !is.na(language)), aes(y = word, fill = word))
         axis.ticks.y=element_blank())
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-8-1.png)
-
-``` r
-ggsave("English for 2024 Title.png")
-```
-
-    Saving 7 x 5 in image
+![](images/unnamed-chunk-8-1.png)
 
 ``` r
 #visualization for English lyrics in 2023 title track: 
@@ -414,13 +374,7 @@ ggplot(data=subset(super, !is.na(language)), aes(y = word, fill = word)) +
         axis.ticks.y=element_blank())
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-8-2.png)
-
-``` r
-ggsave("English for 2023 Title.png")
-```
-
-    Saving 7 x 5 in image
+![](images/unnamed-chunk-8-2.png)
 
 ``` r
 #visualization for English lyrics in 2020 title track: 
@@ -430,13 +384,7 @@ ggplot(data=subset(leftright, !is.na(language)), aes(y = word, fill = word)) +
         axis.ticks.y=element_blank())
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-8-3.png)
-
-``` r
-ggsave("English for 2020 Title.png")
-```
-
-    Saving 7 x 5 in image
+![](images/unnamed-chunk-8-3.png)
 
 ``` r
 #visualization for English lyrics in 2015 title track: 
@@ -446,13 +394,7 @@ ggplot(data=subset(adoreu, !is.na(language)), aes(y = word, fill = word)) +
         axis.ticks.y=element_blank())
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-8-4.png)
-
-``` r
-ggsave("English for 2015 Title.png")
-```
-
-    Saving 7 x 5 in image
+![](images/unnamed-chunk-8-4.png)
 
 Do the later releases include more complex English structures than their
 early counterparts? This is a trend that can be confirmed by looking
@@ -596,38 +538,66 @@ ggplot(data=subset(lyric_wordtype, !is.na(language)), aes(x = album_year, fill =
   geom_bar(position = "fill") + xlab("Album Year") + ylab("Word Type") + labs(fill = "Language") + labs(title = "Word Type by Album Year")
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-10-1.png)
-
-``` r
-ggsave("Word Type by Album Year.png")
-```
-
-    Saving 7 x 5 in image
+![](images/unnamed-chunk-10-1.png)
 
 ``` r
 ggplot(data=subset(function_subset), aes(x = album_year, fill = cont_func)) +
   geom_bar(position = "dodge") + xlab("Count") + ylab("Function Words") + labs(title= "English Function Words by Year")
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-11-1.png)
+![](images/unnamed-chunk-11-1.png)
 
 ``` r
-ggsave("Function Word Count by Album.png")
-```
-
-    Saving 7 x 5 in image
-
-``` r
+#A rough visualization of what function words are in each album
 ggplot(data=subset(function_subset), aes(x = album_year, fill = word)) +
   geom_bar(position = "dodge") + xlab("Count") + ylab("Function Wordss") + labs(title= "English Function Words by Year") + theme(axis.title.y=element_blank(),
          axis.text.y=element_blank(),
         axis.ticks.y=element_blank())
 ```
 
-![](data-processing_files/figure-commonmark/unnamed-chunk-11-2.png)
+![](images/unnamed-chunk-11-2.png)
 
 ``` r
-ggsave("English Function Words by Album Year.png")
+#Session Info
+sessionInfo()
 ```
 
-    Saving 7 x 5 in image
+    R version 4.5.1 (2025-06-13 ucrt)
+    Platform: x86_64-w64-mingw32/x64
+    Running under: Windows 10 x64 (build 19045)
+
+    Matrix products: default
+      LAPACK version 3.12.1
+
+    locale:
+    [1] LC_COLLATE=English_United States.utf8 
+    [2] LC_CTYPE=English_United States.utf8   
+    [3] LC_MONETARY=English_United States.utf8
+    [4] LC_NUMERIC=C                          
+    [5] LC_TIME=English_United States.utf8    
+
+    time zone: America/New_York
+    tzcode source: internal
+
+    attached base packages:
+    [1] stats     graphics  grDevices utils     datasets  methods   base     
+
+    other attached packages:
+     [1] tidytext_0.4.3  lubridate_1.9.4 forcats_1.0.0   stringr_1.5.1  
+     [5] dplyr_1.1.4     purrr_1.1.0     readr_2.1.5     tidyr_1.3.1    
+     [9] tibble_3.3.0    ggplot2_3.5.2   tidyverse_2.0.0
+
+    loaded via a namespace (and not attached):
+     [1] janeaustenr_1.0.0  utf8_1.2.6         generics_0.1.4     stringi_1.8.7     
+     [5] lattice_0.22-7     hms_1.1.3          digest_0.6.37      magrittr_2.0.3    
+     [9] evaluate_1.0.5     grid_4.5.1         timechange_0.3.0   RColorBrewer_1.1-3
+    [13] fastmap_1.2.0      jsonlite_2.0.0     Matrix_1.7-3       scales_1.4.0      
+    [17] textshaping_1.0.1  cli_3.6.5          rlang_1.1.6        crayon_1.5.3      
+    [21] tokenizers_0.3.0   bit64_4.6.0-1      withr_3.0.2        yaml_2.3.10       
+    [25] tools_4.5.1        parallel_4.5.1     tzdb_0.5.0         vctrs_0.6.5       
+    [29] R6_2.6.1           lifecycle_1.0.4    bit_4.6.0          vroom_1.6.5       
+    [33] ragg_1.4.0         pkgconfig_2.0.3    pillar_1.11.0      gtable_0.3.6      
+    [37] glue_1.8.0         Rcpp_1.1.0         systemfonts_1.2.3  xfun_0.52         
+    [41] tidyselect_1.2.1   rstudioapi_0.17.1  knitr_1.50         farver_2.1.2      
+    [45] htmltools_0.5.8.1  SnowballC_0.7.1    labeling_0.4.3     rmarkdown_2.30    
+    [49] compiler_4.5.1    

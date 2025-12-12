@@ -13,12 +13,16 @@ like never before. The sound of popular Korean music has changed due to
 this global audience, but the language choice of lyrics has also notably
 shifted in recent years to include more and more English.
 
-## Previous Research
-
-Communication Accommodation Theory (Howard Giles) Audience Design (Allan
-Bell) Case Study of Foxy Boston (Rickford, McNair-Knox, 1994) Speakers
-shift their speech (language, style, variety, etc.) to who they are
-addressing or who might be listening to or overhearing them.
+This study aims to serve as a case study of bilingual language use by
+popular Korean artists through the Korean pop boy group, Seventeen. By
+analyzing Seventeen’s Korean and English lyrics at key junctures in
+their career, this research assumes the sociolinguistic theories of
+Communication Accommodation (Howard Giles) and Audience Design (Allan
+Bell) will provide an understanding of their reasoning behind any
+language trends. These core theories support the idea that speakers
+shift their speech to accommodate who they are addressing or who might
+be hearing/overhearing them and are extended to the communication medium
+of music lyrics for this case study.
 
 ## Research Questions
 

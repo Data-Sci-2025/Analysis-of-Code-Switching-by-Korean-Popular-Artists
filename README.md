@@ -10,15 +10,14 @@ This project analyzes the language choice of popular Korean artists over time as
 
 ## Where the data comes from
 
-All data was collected from colocodedlyrics.com. The lyrics from this source are submitted on a volunteer-basis and are vetted for accuracy by the Color Coded Lyrics team before uploaded to their site. Google Translate and other auto-translation software are prohibited when submitting lyric translations to the website. The Color Coded Lyrics team allows usage of translations and line distributions from their website as long as it is not for profit and they are accredited. 
+All data was collected from colorcodedlyrics.com. The lyrics from this source are submitted on a volunteer-basis and are vetted for accuracy by the Color Coded Lyrics team before uploaded to their site. Google Translate and other auto-translation software are prohibited when submitting lyric translations to the website. The Color Coded Lyrics team allows usage of translations and line distributions from their website as long as it is not for profit and they are accredited. 
 
 
 ## Repo organization
 
-
-
-
-
+- All code is found in the file, **data-processing.qmd**.
+- Findings, Figures, and Conclusions are in the file, **final_report.md**
+- Lyrics and images are in their respective subfolders in the repository.
 
 
 
