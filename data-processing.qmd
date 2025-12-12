@@ -1,5 +1,8 @@
 ---
 format: gfm
+knitr:
+  opts_chunk:
+    fig.path: "images/"
 ---
 
 ## Reading in the Data
@@ -118,7 +121,6 @@ lyricsdf |> count(language, sort=TRUE)
 #...and visualize it:
 ggplot(data=subset(lyricsdf, !is.na(language)), aes(x = language)) +
   geom_bar(fill = "salmon")+ theme_light() + xlab("Language") + ylab("Count") + labs(title = "Overall Language Use")
-ggsave("Overall Language Use.png")
 ```
 
 ### Language Use by Album 
@@ -137,12 +139,10 @@ ggsave("Language Use for Each Album Year.png")
 
 ggplot(data=subset(lyricsdf, !is.na(language)), aes(x = album_year, fill = language)) +
   geom_bar(position = "fill") + xlab("Album Year") + ylab("Lyrics") + labs(fill = "Language") + labs(title = "Language Comparison by Album Year")
-ggsave("Language Comparison by Album Year.png")
 
 ```
 ### Zooming in on Track Type
 
-Some nuance is lost in this zoomed out view, so I also sorted the language use by song within each album. Then, I viewed the language use particularly of the "title" tracks of each album. 
 ```{r}
 #sorting songs into albums:
 filter(lyricsdf, album_year == "2024") ->> byalbum24
@@ -190,8 +190,6 @@ ggplot(data=subset(latesttitle, !is.na(language)), aes(x = language, fill = lang
 
 ### English Highlights
 
-The data gets more interesting as we zoom into what English words are found in the songs. Below are snapshots of the English makeup of the four title tracks from the albums in this study:
-
 ```{r}
 #taking a closer look at the English lyrics in each title track: 
 filter(debuttitle, language == "English") ->> adoreu
@@ -205,28 +203,25 @@ ggplot(data=subset(lovemoneyfame, !is.na(language)), aes(y = word, fill = word))
   geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Love, Money, Fame'") + theme(axis.title.y=element_blank(),
          axis.text.y=element_blank(),
         axis.ticks.y=element_blank())
-ggsave("English for 2024 Title.png")
 
 #visualization for English lyrics in 2023 title track: 
 ggplot(data=subset(super, !is.na(language)), aes(y = word, fill = word)) +
   geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Super'") + theme(axis.title.y=element_blank(),
          axis.text.y=element_blank(),
         axis.ticks.y=element_blank())
-ggsave("English for 2023 Title.png")
 
 #visualization for English lyrics in 2020 title track: 
 ggplot(data=subset(leftright, !is.na(language)), aes(y = word, fill = word)) +
   geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Left and Right'") + theme(axis.title.y=element_blank(),
          axis.text.y=element_blank(),
         axis.ticks.y=element_blank())
-ggsave("English for 2020 Title.png")
 
 #visualization for English lyrics in 2015 title track: 
 ggplot(data=subset(adoreu, !is.na(language)), aes(y = word, fill = word)) +
   geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Adore U'") + theme(axis.title.y=element_blank(),
          axis.text.y=element_blank(),
         axis.ticks.y=element_blank())
-ggsave("English for 2015 Title.png")
+
 
 ```
 
@@ -294,7 +289,6 @@ Interjections would also be classed as function words since they 'fill' pauses a
 ggplot(data=subset(lyric_wordtype, !is.na(language)), aes(x = album_year, fill = cont_func)) +
   geom_bar(position = "fill") + xlab("Album Year") + ylab("Word Type") + labs(fill = "Language") + labs(title = "Word Type by Album Year")
 
-ggsave("Word Type by Album Year.png")
 ```
 
 ```{r}
@@ -311,3 +305,8 @@ ggplot(data=subset(function_subset), aes(x = album_year, fill = word)) +
         axis.ticks.y=element_blank())
 ggsave("English Function Words by Album Year.png")
 ```
+```{r}
+#Session Info
+sessionInfo()
+```
+

@@ -4,47 +4,135 @@ format: gfm
 
 ## Introduction
 
+Seventeen is a boy group that holds the current record for best-selling album from a Korean artist with their 2023 album *FML*. They have released music since releasing FML and have a long list of frequent (annual) releases since their 2015 debut a decade ago. They are self-producing artists, involved in music production, choreographing, and songwriting. 
+
+The Korean music industry has grown and is amassing global attention like never before. The sound of popular Korean music has changed due to this global audience, but the language choice of lyrics has also notably shifted in recent years to include more and more English. 
+
+
 ## Previous Research 
+
+Communication Accommodation Theory (Howard Giles)
+Audience Design (Allan Bell)
+Case Study of Foxy Boston (Rickford, McNair-Knox, 1994)
+Speakers shift their speech (language, style, variety, etc.) to who they are addressing or who might be listening to or overhearing them.
+
 
 ## Research Questions
 
-## Data Methods & Collection 
+I pose three research questions for this study:
+
+1. Does Seventeen adapt their language choice in later releases? 
+ - Later releases generally receive higher praise and reach higher on the charts. I would assume that any change in the language makeup of their languages would follow this chart success, meaning that later releases have a different language distribution of English and Korean. 
+
+2. Is popularity related to language use?
+  - Because Seventeen experiences diverse, global success with their best-selling, 2023 album, I would expect that their use of English increases over time to accommodate for a more global and diverse audience of listeners. Following the line of thinking presented in previous research on style-shifting and code-switching, I predict that Seventeen switches much of their lyrics to English over time as their popularity increases. 
+
+3. Does the type of track have any correlation to the language of the lyrics?
+ - I predict that title tracks would include more English than Korean. The assumption behind this hypothesis is that title tracks are generally made to go viral. Title tracks receive the most advertisement and are always accompanied  by a music video and a catchy dance. If Seventeen (or their company) see that they are gaining popularity with an English-speaking demographic, I would find it plausible that they include more English in their next 'centerpiece' of a song. 
 
 
 
+## Data Collection & Results 
+
+Lyrics and metadata was collected from a fan-made website called [colorcodedlyrics.com](https://colorcodedlyrics.com/2015/10/01/seventeen-sebeuntin-lyrics-index/). The lyrics were recorded in their original (not translated or romanized) format in individual csv  files, which were read in R. Each line of the songs were saved as their own row, with the spaces between stanzas of the song preserved as N/As. No metadata was saved inside the files but rather in the file names. 
+
+After tidying the data into its own neat dataframe, functions from the R package, tidytext, were used to pivot the dataframe to be longer, assigning each word its own row. In this form the words could be divided by language. A language column was created using the mutate() function to save information about which language each individual word token was written in. 
+
+With the lyrics parsed and the language use detected, I could move on to considering the data as a whole. The language breakdown of the lyrics altogether lean majority Korean:   
+
+**Figure 1**  
+![](images/Overall Language Use.png)
+
+However, it is more important to view the lyrics based off of **when** they were released. One of the goals of this research was to investigate whether language use changes over time and/or as their popularity rises. Both a total count view and a percentage view is provided so that the language variation within and across each album. 
 
 
+**Figure 2**  
+![](images/Language Use for Each Album Year.png)  
 
+**Figure 3**  
+![](images/Language Comparison By Album Year.png)  
 
+Some nuance is lost in this zoomed out view, so I also sorted the language use by song within each album. Then, I viewed the language use particularly of the "title" tracks of each album. Figures 4 through 7 show the language percentages of each track in each album.
 
+**Figure 4**  
+![](images/Language Use for Debut.png)  
+
+**Figure 5**  
+![](images/Language Use for Mid-Career.png)  
+
+**Figure 6**  
+![](images/Language Use for Best-selling.png)  
+
+**Figure 7**  
+![](images/Language Use for Latest.png)  
 
 
 A title track refers to the song that is mainly promoted from an album. This title track would have a music video, advertisements leading up to the album's release focusing on the track, and would be the song that is performed on weekly or year-end music shows. Functionally, a title track is treated differently by fans and artists alike, acting as the centerpiece to that album's concept, message, and (in most cases) the public, 'non-fan' image. 
 
+**Figure 8**
+![](images/Language Use by Nontitle vs. Title Tracks.png)
+
+Across all tracks in the data, title tracks have more English lyrics than Korean lyrics. However, it is important to consider the content of these mass totals to ensure a single track or high-frequency token is skewing the results. 
+
+An glance at the English lyrics of the title tracks shows an obvious higher frequency for words that are in the chorus. The title track from 2020, for example, has a chorus that consists of almost completely English lyrics, but most of the chorus is just the phrase 'left and right' repeated nine times. Furthermore, this chorus is repeated multiple times, instantly inflating the use of English in total. 
+
+If we view the language distribution of all of the songs at once, we can see that the non-title tracks are a mixed bag as well. Figure 9 reveals that many non-title tracks include no Korean, while others include more English than the title tracks. For example, the song "Together" from Seventeen's 2020 album is nearly fully in Korean, but in this same album we see a non-title track, "Water", that includes more English than the title track, "Super". 
 
 
+**Figure 9**  
+![](images/Language Use by Song.png)  
+
+While the track-type comparison appears to be unfruitful, a deep look into the lyric breakdown of the title tracks by themselves provide other insights on the trend of the language choice. Figures 10 - 13 visualize the distribution of the English tokens in the lyrics of each title track of the four albums. 
+
+**Figure 10**  
+![](images/English for 2015 Title.png)  
+
+**Figure 11**  
+![](images/English for 2020 Title.png)
+
+**Figure 12**  
+![](images/English for 2023 Title.png)  
+
+**Figure 13**  
+![](images/English for 2024 Title.png)
 
 
-An overlook at the English lyrics of the title tracks shows an obvious higher frequency for words that are in the chorus. This is sensical-- the chorus in each song is repeated multiple times, instantly inflating the use of English in each song. However, these graphs when compared side by side suggest that there is possibly a change in word type over time. 
+These graphs when compared side by side suggest that there is a change in word type over time. Looking at Figure 13, we can see that there is more variety among the English tokens in the latest title track than what is observed in the debut title track (Figure 10). 
 
+This first glance poses another question toward the general inquiry of our study: Do the later releases include more complex English structures than their early counterparts? 
 
-
-
- Function words signal the structural relationships that words have to one another and are generally quite lexically ambiguous. Examples of English function words would include articles 'the' and 'a', as well as prepositions, pronouns, conjunctions, and helping verbs. 
+This is a trend that can be confirmed by looking closer at English **function words**. Function words signal the structural relationships that words have to one another and are generally quite lexically ambiguous. Examples of English function words would include articles 'the' and 'a', as well as prepositions, pronouns, conjunctions, and helping verbs. 
  
+Comparing the data to a 200+ word list of common English function words and dividing the data into two general word types ('function words' and 'content/other words') does in fact reveal an upward trend in function-word frequency as time goes on. This increase can be seen in Figure 14.
+
+**Figure 14**  
+![](images/Word Type by Album Year.png)
+
+Figure 15 also shows the same upward trend, this time including a rough depiction of which function words appear in each album. The purpose of this graph is not to show the exact number of tokens, but the overall ever-increasing complexity in the distribution of function words from debut to latest songs. 
+
+**Figure 15**  
+![](images/English Function Words by Album Year.png)
+
+**A Note on Interjections**   
+ Interjections would also be classed as function words since they 'fill' pauses and express feeling or reaction in an utterance. However, interjections in the data were not included in the list of function words but were left as part of the "Content/Other" category. There are a few lines of thinking behind this decision. Firstly, these interjections are not always included in the data in Latin script but in Hangul. This is true even when the title of the song includes the interjections in English (i.e. the song "Ah Yeah" includes 'ah' and 'yeah' only in Hangul in the lyrics). Secondly, the opposite is frequently also true. There are non-English words that are written in Latin script. Scats and 'whoops' such as "darimdarimda" or "yuh" are labeled as English in the data because the translators of the songs transcribed them using the Latin alphabet. It appears that these interjections are some third option, words serving an overlapping function in both languages. With these reasons in mind, they were not coded as function words for this data set.  
  
- Interjections would also be classed as function words since they 'fill' pauses and express feeling or reaction in an utterance. Interjections in the data were not included in the list of function words above but were left as part of the "Content/Other" category. There are a few lines of thinking behind this decision. Firstly, these interjections are not always included in the data in Latin script but in Hangul. This is true even when the title includes the interjections in English (i.e. the song "Ah Yeah" includes its name only in Hangul in the lyrics). Secondly, the opposite is frequently also true. There are non-English words that are written in Latin script. Scats and 'whoops' such as "darimdarimda" or "yuh" are sorted by the code as English because the translators of the songs transcribed them using the Latin alphabet. It appears that these interjections are some third option, words serving an overlapping function in both languages. With these reasons in mind, they were not coded as function words for this data set.  
- 
- 
- 
-## Drawing Conclusions
+
+##Conclusion  
+
+After conducting all of the above analysis, several conclusions can be made about Seventeen's discography: 
 
 
-There is more English in songs later in career than earlier/mid-career.
-There is more English in songs after best-selling album, as well as collaborations with Western producers.
-More unique English words (and more content/function words) in later releases
-Only slightly more English in title vs non-title tracks.
+1. **There is more English in songs later in their career than earlier/mid-career.**
+  - The total number of individual words in the songs may still majorly favor Korean, a comparison of the language usage across albums showed that later albums increase in English lyrics distribution, especially after their best-selling album in 2023 (see Figure 3). 
+  
+2. **There are more unique and complex English lyrics in later releases.**
+  - An analysis of what type of English words are present in each title track and overall track list revealed that Seventeen had much simpler English words and structure in their debut release than their latest tracks. An overview revealed this upward trend roughly mirrored the increase in English we saw in the language distribution of the lyrics. 
 
+3. **There is only slightly more English in title vs non-title tracks.**
+  - The third research question of this study aimed to investigate whether there is a difference in language use between title and non-title tracks in general. Figure 8 shows a slight favor towards English, but a closer look at the individual songs showed a more untidy distribution. 
+
+
+  
 
 
 ## Research Limitations & Future Directions
@@ -59,8 +147,9 @@ The assumption underlying the conclusions of this research and the suggested fut
 
 ## References
 
+Billboard. (2025). "Seventeen: Biography, Music & News. Billboard". https://www.billboard.com/artist/seventeen/chart-history/hsi/
 
-ColorCodedLyrics.com.“SEVENTEEN (세븐틴) Profile & Lyrics Index” https://colorcodedlyrics.com/2015/10/01/seventeen-sebeuntin-lyrics-index/ 
+ColorCodedLyrics.com. (2025). “SEVENTEEN (세븐틴) Profile & Lyrics Index” https://colorcodedlyrics.com/2015/10/01/seventeen-sebeuntin-lyrics-index/ 
 
 Meyerhoff, M. (2019). Variation and style. In *Introducing Sociolinguistics* (pp. 31–57). essay, Routledge/Taylor and Francis Group. 
 

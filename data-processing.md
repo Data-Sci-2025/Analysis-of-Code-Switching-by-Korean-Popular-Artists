@@ -1,12 +1,4 @@
 
-## Introduction
-
-## Previous Research
-
-## Research Questions
-
-## Data Methods & Collection
-
 ## Reading in the Data
 
 Below shows the code I used to read in the data, where each song is its
@@ -209,8 +201,7 @@ lyricsdf
 With the lyrics parsed and the language use detected, I could move on to
 considering the data as a whole.
 
-The language breakdown of the lyrics altogether lean majority Korean,
-which is to be expected for music made by Korean-speaking people:
+The language breakdown of the lyrics altogether lean majority Korean:
 
 ``` r
 #to count the language breakdown of the lyrics overall
@@ -289,14 +280,7 @@ ggsave("Language Comparison by Album Year.png")
 
 Some nuance is lost in this zoomed out view, so I also sorted the
 language use by song within each album. Then, I viewed the language use
-particularly of the “title” tracks of each album. A title track refers
-to the song that is mainly promoted from an album. This title track
-would have a music video, advertisements leading up to the album’s
-release focusing on the track, and would be the song that is performed
-on weekly or year-end music shows. Functionally, a title track is
-treated differently by fans and artists alike, acting as the centerpiece
-to that album’s concept, message, and (in most cases) the public,
-‘non-fan’ image.
+particularly of the “title” tracks of each album.
 
 ``` r
 #sorting songs into albums:
@@ -417,6 +401,12 @@ ggplot(data=subset(lovemoneyfame, !is.na(language)), aes(y = word, fill = word))
 ![](data-processing_files/figure-commonmark/unnamed-chunk-8-1.png)
 
 ``` r
+ggsave("English for 2024 Title.png")
+```
+
+    Saving 7 x 5 in image
+
+``` r
 #visualization for English lyrics in 2023 title track: 
 ggplot(data=subset(super, !is.na(language)), aes(y = word, fill = word)) +
   geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Super'") + theme(axis.title.y=element_blank(),
@@ -425,6 +415,12 @@ ggplot(data=subset(super, !is.na(language)), aes(y = word, fill = word)) +
 ```
 
 ![](data-processing_files/figure-commonmark/unnamed-chunk-8-2.png)
+
+``` r
+ggsave("English for 2023 Title.png")
+```
+
+    Saving 7 x 5 in image
 
 ``` r
 #visualization for English lyrics in 2020 title track: 
@@ -437,6 +433,12 @@ ggplot(data=subset(leftright, !is.na(language)), aes(y = word, fill = word)) +
 ![](data-processing_files/figure-commonmark/unnamed-chunk-8-3.png)
 
 ``` r
+ggsave("English for 2020 Title.png")
+```
+
+    Saving 7 x 5 in image
+
+``` r
 #visualization for English lyrics in 2015 title track: 
 ggplot(data=subset(adoreu, !is.na(language)), aes(y = word, fill = word)) +
   geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Adore U'") + theme(axis.title.y=element_blank(),
@@ -446,18 +448,15 @@ ggplot(data=subset(adoreu, !is.na(language)), aes(y = word, fill = word)) +
 
 ![](data-processing_files/figure-commonmark/unnamed-chunk-8-4.png)
 
-An overlook at the English lyrics of the title tracks shows an obvious
-higher frequency for words that are in the chorus. This is sensical– the
-chorus in each song is repeated multiple times, instantly inflating the
-use of English in each song. However, these graphs when compared side by
-side suggest that there is possibly a change in word type over time.
-Does the later releases include more complex English structures than
-their early counterparts? This is a trend that can be confirmed by
-looking closer at English **function words**. Function words signal the
-structural relationships that words have to one another and are
-generally quite lexically ambiguous. Examples of English function words
-would include articles ‘the’ and ‘a’, as well as prepositions, pronouns,
-conjunctions, and helping verbs.
+``` r
+ggsave("English for 2015 Title.png")
+```
+
+    Saving 7 x 5 in image
+
+Do the later releases include more complex English structures than their
+early counterparts? This is a trend that can be confirmed by looking
+closer at English **function words**.
 
 ``` r
 #long list of common function words in English
@@ -590,21 +589,45 @@ content_subset
 Interjections would also be classed as function words since they ‘fill’
 pauses and express feeling or reaction in an utterance. Interjections in
 the data were not included in the list of function words above but were
-left as part of the “Content/Other” category. There are a few lines of
-thinking behind this decision. Firstly, these interjections are not
-always included in the data in Latin script but in Hangul. This is true
-even when the title includes the interjections in English (i.e. the song
-“Ah Yeah” includes its name only in Hangul in the lyrics). Secondly, the
-opposite is frequently also true. There are non-English words that are
-written in Latin script. Scats and ‘whoops’ such as “darimdarimda” or
-“yuh” are sorted by the code as English because the translators of the
-songs transribed them using the Latin alphabet. It appears that these
-interjections are some third option, words serving an overlapping
-function in both languages. With these reasons in mind, they were not
-coded as function words for this data set.
+left as part of the “Content/Other” category.
 
-## Drawing Conclusions
+``` r
+ggplot(data=subset(lyric_wordtype, !is.na(language)), aes(x = album_year, fill = cont_func)) +
+  geom_bar(position = "fill") + xlab("Album Year") + ylab("Word Type") + labs(fill = "Language") + labs(title = "Word Type by Album Year")
+```
 
-### What the Data Can Tell Us
+![](data-processing_files/figure-commonmark/unnamed-chunk-10-1.png)
 
-## Research Limitations & Future Directions
+``` r
+ggsave("Word Type by Album Year.png")
+```
+
+    Saving 7 x 5 in image
+
+``` r
+ggplot(data=subset(function_subset), aes(x = album_year, fill = cont_func)) +
+  geom_bar(position = "dodge") + xlab("Count") + ylab("Function Words") + labs(title= "English Function Words by Year")
+```
+
+![](data-processing_files/figure-commonmark/unnamed-chunk-11-1.png)
+
+``` r
+ggsave("Function Word Count by Album.png")
+```
+
+    Saving 7 x 5 in image
+
+``` r
+ggplot(data=subset(function_subset), aes(x = album_year, fill = word)) +
+  geom_bar(position = "dodge") + xlab("Count") + ylab("Function Wordss") + labs(title= "English Function Words by Year") + theme(axis.title.y=element_blank(),
+         axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+```
+
+![](data-processing_files/figure-commonmark/unnamed-chunk-11-2.png)
+
+``` r
+ggsave("English Function Words by Album Year.png")
+```
+
+    Saving 7 x 5 in image
