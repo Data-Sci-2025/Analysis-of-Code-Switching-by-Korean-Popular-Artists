@@ -1,9 +1,17 @@
 
+## Introduction
+
+## Previous Research
+
+## Research Questions
+
+## Data Methods & Collection
+
 ## Reading in the Data
 
-The code below shows the code I used to read in the data, where each
-song is its own csv file. I then created columns for the metadata
-associated with each song.
+Below shows the code I used to read in the data, where each song is its
+own csv file. I then created columns for the metadata associated with
+each song.
 
 ``` r
 #reading in packages I will need
@@ -26,9 +34,12 @@ library(dplyr)
 library(stringr)
 library(tidytext)
 
-#reading multiple files of data into R and replacing NA's in file to present as true NA's
-firstfiles <- list.files(pattern=".csv") |>
-  read_csv(id = "file", na = c("", "na", "n/a", "N/A", "NA", "Na"))
+# Path to the subfolder
+data_subfolder <- "Seventeen_Lyrics"
+
+# Get full file paths of all CSVs in the subfolder
+files <- list.files(path = data_subfolder, pattern = "\\.csv$", full.names = TRUE)
+firstfiles <- read_csv(files,id = "file", na = c("", "na", "n/a", "N/A", "NA", "Na"))
 ```
 
     Rows: 1582 Columns: 2
@@ -40,12 +51,14 @@ firstfiles <- list.files(pattern=".csv") |>
     ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ``` r
-#putting each song's metadata in separate columns from file names
+# Read all CSVs into a list of data frames
+# <- read_csv(id = "file", na = c("", "na", "n/a", "N/A", "NA", "Na"))
+
+
+#firstfiles$file = as.character(file)
 firstfiles$track_type = str_extract(firstfiles$file, "Title|Nontitle")
 firstfiles$album_year = str_extract(firstfiles$file, "15|20|23|24")
 
-#making the column names uniformly lowercase
- colnames(firstfiles) <- tolower(colnames(firstfiles))
  
 #separating out the song names using str_detect and mutate functions
 lyrics = firstfiles |>
@@ -82,7 +95,25 @@ lyrics = firstfiles |>
     str_detect(album_year, "20") ~ "2020",
     str_detect(album_year, "15") ~ "2015")
   ) ->> lyrics
+
+colnames(lyrics) <- tolower(colnames(lyrics))
+lyrics
 ```
+
+    # A tibble: 1,582 × 5
+       file                                  lyrics track_type album_year song_title
+       <chr>                                 <chr>  <chr>      <chr>      <chr>     
+     1 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 아 예 아… Nontitle   2015       Ah Yeah   
+     2 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… Yo $.… Nontitle   2015       Ah Yeah   
+     3 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 등장과 동… Nontitle   2015       Ah Yeah   
+     4 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 침 흘리며… Nontitle   2015       Ah Yeah   
+     5 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… WOAH … Nontitle   2015       Ah Yeah   
+     6 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 애들이 알… Nontitle   2015       Ah Yeah   
+     7 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 못 뜬 이… Nontitle   2015       Ah Yeah   
+     8 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 맞출 생각… Nontitle   2015       Ah Yeah   
+     9 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 니 식견에… Nontitle   2015       Ah Yeah   
+    10 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 막 귀들 … Nontitle   2015       Ah Yeah   
+    # ℹ 1,572 more rows
 
 ## Tidying the Data
 
@@ -95,18 +126,18 @@ lyrics
 ```
 
     # A tibble: 1,582 × 5
-       file                    lyrics               track_type album_year song_title
-       <chr>                   <chr>                <chr>      <chr>      <chr>     
-     1 Nontitle_Ah_Yeah_15.csv 아 예 아 예 근데 뭐라구요?…… Nontitle   2015       Ah Yeah   
-     2 Nontitle_Ah_Yeah_15.csv Yo $. Coup$, Here’s… Nontitle   2015       Ah Yeah   
-     3 Nontitle_Ah_Yeah_15.csv 등장과 동시에 들러리들 바닥에서…… Nontitle   2015       Ah Yeah   
-     4 Nontitle_Ah_Yeah_15.csv 침 흘리며 기절 그 위에서 수영해요… Nontitle   2015       Ah Yeah   
-     5 Nontitle_Ah_Yeah_15.csv WOAH 옆구리 지방튜브 끼고 못 … Nontitle   2015       Ah Yeah   
-     6 Nontitle_Ah_Yeah_15.csv 애들이 알리 있나     Nontitle   2015       Ah Yeah   
-     7 Nontitle_Ah_Yeah_15.csv 못 뜬 이유 절대 모름 (Don’t… Nontitle   2015       Ah Yeah   
-     8 Nontitle_Ah_Yeah_15.csv 맞출 생각 없어       Nontitle   2015       Ah Yeah   
-     9 Nontitle_Ah_Yeah_15.csv 니 식견에 날 맞추지 말길…… Nontitle   2015       Ah Yeah   
-    10 Nontitle_Ah_Yeah_15.csv 막 귀들 방구석 박혀 밖에 나오질 … Nontitle   2015       Ah Yeah   
+       file                                  lyrics track_type album_year song_title
+       <chr>                                 <chr>  <chr>      <chr>      <chr>     
+     1 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 아 예 아… Nontitle   2015       Ah Yeah   
+     2 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… Yo $.… Nontitle   2015       Ah Yeah   
+     3 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 등장과 동… Nontitle   2015       Ah Yeah   
+     4 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 침 흘리며… Nontitle   2015       Ah Yeah   
+     5 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… WOAH … Nontitle   2015       Ah Yeah   
+     6 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 애들이 알… Nontitle   2015       Ah Yeah   
+     7 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 못 뜬 이… Nontitle   2015       Ah Yeah   
+     8 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 맞출 생각… Nontitle   2015       Ah Yeah   
+     9 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 니 식견에… Nontitle   2015       Ah Yeah   
+    10 Seventeen_Lyrics/Nontitle_Ah_Yeah_15… 막 귀들 … Nontitle   2015       Ah Yeah   
     # ℹ 1,572 more rows
 
 With this “lyrics” dataframe, I can then pivot the data to be longer,
@@ -120,28 +151,28 @@ lyrics
 ```
 
     # A tibble: 6,418 × 5
-       file                  track_type album_year song_title word    
-       <chr>                 <chr>      <chr>      <chr>      <chr>   
-     1 Nontitle_Candy_24.csv Nontitle   2024       Candy      우리    
-     2 Nontitle_Candy_24.csv Nontitle   2024       Candy      사탕    
-     3 Nontitle_Candy_24.csv Nontitle   2024       Candy      같은    
-     4 Nontitle_Candy_24.csv Nontitle   2024       Candy      사랑해요
-     5 Nontitle_Candy_24.csv Nontitle   2024       Candy      자그만  
-     6 Nontitle_Candy_24.csv Nontitle   2024       Candy      말      
-     7 Nontitle_Candy_24.csv Nontitle   2024       Candy      하나에도
-     8 Nontitle_Candy_24.csv Nontitle   2024       Candy      기분이  
-     9 Nontitle_Candy_24.csv Nontitle   2024       Candy      좋아질  
-    10 Nontitle_Candy_24.csv Nontitle   2024       Candy      수      
+       file                                   track_type album_year song_title word 
+       <chr>                                  <chr>      <chr>      <chr>      <chr>
+     1 Seventeen_Lyrics/Nontitle_Candy_24.csv Nontitle   2024       Candy      우리 
+     2 Seventeen_Lyrics/Nontitle_Candy_24.csv Nontitle   2024       Candy      사탕 
+     3 Seventeen_Lyrics/Nontitle_Candy_24.csv Nontitle   2024       Candy      같은 
+     4 Seventeen_Lyrics/Nontitle_Candy_24.csv Nontitle   2024       Candy      사랑해요…
+     5 Seventeen_Lyrics/Nontitle_Candy_24.csv Nontitle   2024       Candy      자그만……
+     6 Seventeen_Lyrics/Nontitle_Candy_24.csv Nontitle   2024       Candy      말   
+     7 Seventeen_Lyrics/Nontitle_Candy_24.csv Nontitle   2024       Candy      하나에도…
+     8 Seventeen_Lyrics/Nontitle_Candy_24.csv Nontitle   2024       Candy      기분이……
+     9 Seventeen_Lyrics/Nontitle_Candy_24.csv Nontitle   2024       Candy      좋아질……
+    10 Seventeen_Lyrics/Nontitle_Candy_24.csv Nontitle   2024       Candy      수   
     # ℹ 6,408 more rows
 
 ### Language Detection
 
-Now that each word can be evaluated separately, I can to detect the
+Now that each word can be evaluated separately, I can detect the
 language of the word. Because Korean and English use separate alphabets,
-I could simply use stringr functions to detect Hangul versus Latin
-alphabet use in each word. A new column was created to hold this
-information on the language of the words. The mutated “lyrics” dataframe
-that holds this new column was renamed to “lyricsdf”.
+I simply used stringr functions to detect Hangul versus Latin alphabet
+use in each word. A new column was created to hold the information on
+the language of the words. The mutated “lyrics” dataframe that contains
+this new column was renamed to “lyricsdf”.
 
 ``` r
 #mutating the dataframe to detect language of rows of lyrics and create language column
@@ -157,18 +188,18 @@ lyricsdf
 ```
 
     # A tibble: 6,418 × 6
-       file                  track_type album_year song_title word     language
-       <chr>                 <chr>      <chr>      <chr>      <chr>    <chr>   
-     1 Nontitle_Candy_24.csv Nontitle   2024       Candy      우리     Korean  
-     2 Nontitle_Candy_24.csv Nontitle   2024       Candy      사탕     Korean  
-     3 Nontitle_Candy_24.csv Nontitle   2024       Candy      같은     Korean  
-     4 Nontitle_Candy_24.csv Nontitle   2024       Candy      사랑해요 Korean  
-     5 Nontitle_Candy_24.csv Nontitle   2024       Candy      자그만   Korean  
-     6 Nontitle_Candy_24.csv Nontitle   2024       Candy      말       Korean  
-     7 Nontitle_Candy_24.csv Nontitle   2024       Candy      하나에도 Korean  
-     8 Nontitle_Candy_24.csv Nontitle   2024       Candy      기분이   Korean  
-     9 Nontitle_Candy_24.csv Nontitle   2024       Candy      좋아질   Korean  
-    10 Nontitle_Candy_24.csv Nontitle   2024       Candy      수       Korean  
+       file                          track_type album_year song_title word  language
+       <chr>                         <chr>      <chr>      <chr>      <chr> <chr>   
+     1 Seventeen_Lyrics/Nontitle_Ca… Nontitle   2024       Candy      우리  Korean  
+     2 Seventeen_Lyrics/Nontitle_Ca… Nontitle   2024       Candy      사탕  Korean  
+     3 Seventeen_Lyrics/Nontitle_Ca… Nontitle   2024       Candy      같은  Korean  
+     4 Seventeen_Lyrics/Nontitle_Ca… Nontitle   2024       Candy      사랑해요… Korean  
+     5 Seventeen_Lyrics/Nontitle_Ca… Nontitle   2024       Candy      자그만…… Korean  
+     6 Seventeen_Lyrics/Nontitle_Ca… Nontitle   2024       Candy      말    Korean  
+     7 Seventeen_Lyrics/Nontitle_Ca… Nontitle   2024       Candy      하나에도… Korean  
+     8 Seventeen_Lyrics/Nontitle_Ca… Nontitle   2024       Candy      기분이…… Korean  
+     9 Seventeen_Lyrics/Nontitle_Ca… Nontitle   2024       Candy      좋아질…… Korean  
+    10 Seventeen_Lyrics/Nontitle_Ca… Nontitle   2024       Candy      수    Korean  
     # ℹ 6,408 more rows
 
 ## Visualizing and Analyzing the Data
@@ -179,7 +210,7 @@ With the lyrics parsed and the language use detected, I could move on to
 considering the data as a whole.
 
 The language breakdown of the lyrics altogether lean majority Korean,
-which is to be expected for music made by Koreans in Korea:
+which is to be expected for music made by Korean-speaking people:
 
 ``` r
 #to count the language breakdown of the lyrics overall
@@ -213,8 +244,7 @@ However, it is more important to view the lyrics based off of **when**
 they were released. One of the goals of this research was to investigate
 whether language use changes over time and/or as their popularity rises.
 Both a total count view and a percentage view is provided so that the
-language comparison within each album is clear as well as across the
-language comparison across albums.
+language variation within and across each album.
 
 ``` r
 #code meant to count the language breakdown of lyrics by album
@@ -257,7 +287,7 @@ ggsave("Language Comparison by Album Year.png")
 
 ### Zooming in on Track Type
 
-Some nuance is lost in this zoomed out view, so I also sorted viewed the
+Some nuance is lost in this zoomed out view, so I also sorted the
 language use by song within each album. Then, I viewed the language use
 particularly of the “title” tracks of each album. A title track refers
 to the song that is mainly promoted from an album. This title track
@@ -365,6 +395,10 @@ ggplot(data=subset(latesttitle, !is.na(language)), aes(x = language, fill = lang
 
 ### English Highlights
 
+The data gets more interesting as we zoom into what English words are
+found in the songs. Below are snapshots of the English makeup of the
+four title tracks from the albums in this study:
+
 ``` r
 #taking a closer look at the English lyrics in each title track: 
 filter(debuttitle, language == "English") ->> adoreu
@@ -411,3 +445,166 @@ ggplot(data=subset(adoreu, !is.na(language)), aes(y = word, fill = word)) +
 ```
 
 ![](data-processing_files/figure-commonmark/unnamed-chunk-8-4.png)
+
+An overlook at the English lyrics of the title tracks shows an obvious
+higher frequency for words that are in the chorus. This is sensical– the
+chorus in each song is repeated multiple times, instantly inflating the
+use of English in each song. However, these graphs when compared side by
+side suggest that there is possibly a change in word type over time.
+Does the later releases include more complex English structures than
+their early counterparts? This is a trend that can be confirmed by
+looking closer at English **function words**. Function words signal the
+structural relationships that words have to one another and are
+generally quite lexically ambiguous. Examples of English function words
+would include articles ‘the’ and ‘a’, as well as prepositions, pronouns,
+conjunctions, and helping verbs.
+
+``` r
+#long list of common function words in English
+stopwords <- c(
+  "a","about","above","across","after","again","against","all","almost",
+  "along","already","also","although","always","am","among","an","and",
+  "another","any","anybody","anyone","anything","anywhere","are","around",
+  "as","at","away","back","be","became","because","become","becomes",
+  "been","before","being","below","between","both","but","by","can",
+  "cannot","could","did","do","does","doing","done","down","during",
+  "each","either","else","enough","even","ever","every","everybody",
+  "everyone","everything","everywhere","few","fewer","for","from","further",
+  "had","has","have","having","he","her","here","hers","herself","him",
+  "himself","his","how","however","i","I", "if","in","inside","instead","into",
+  "is","it","its","itself","just","least","less","let","like","likely",
+  "little","long","may","me","might","more","most","mostly","much","must",
+  "my","myself","near","neither","never","no","nobody","none","nor","not",
+  "nothing","now","nowhere","of","off","often","on","once","one","only",
+  "onto","or","other","others","otherwise","our","ours","ourselves","out",
+  "outside","over","own","per","perhaps","please","quite","rather","really",
+  "said","same","seem","seemed","seeming","seems","several","shall","she",
+  "should","since","so","some","somebody","someone","something","sometimes",
+  "somewhere","soon","still","such","than","that","the","their","theirs",
+  "them","themselves","then","there","therefore","these","they","this",
+  "those","though","through","throughout","thus","to","together","too",
+  "toward","towards","under","until","up","upon","us","usually","very",
+  "via","was","we","well","were","what","whatever","when","whenever",
+  "where","wherever","whether","which","while","whilst","who","whoever",
+  "whom","whomever","whose","why","will","with","within","without","would",
+  "yes","yet","you","your","yours","yourself","yourselves"
+)
+
+#sorting the lyrics into function or content/other categories using the list above
+lyric_wordtype <- lyricdf |>
+  mutate(
+    cont_func = if_else(
+      word %in% stopwords,
+      "Function",
+      "Content/Other" ))
+lyric_wordtype
+```
+
+    # A tibble: 6,418 × 7
+       file                track_type album_year song_title word  language cont_func
+       <chr>               <chr>      <chr>      <chr>      <chr> <chr>    <chr>    
+     1 Seventeen_Lyrics/N… Nontitle   2024       Candy      우리  Korean   Content/…
+     2 Seventeen_Lyrics/N… Nontitle   2024       Candy      사탕  Korean   Content/…
+     3 Seventeen_Lyrics/N… Nontitle   2024       Candy      같은  Korean   Content/…
+     4 Seventeen_Lyrics/N… Nontitle   2024       Candy      사랑해요… Korean   Content/…
+     5 Seventeen_Lyrics/N… Nontitle   2024       Candy      자그만…… Korean   Content/…
+     6 Seventeen_Lyrics/N… Nontitle   2024       Candy      말    Korean   Content/…
+     7 Seventeen_Lyrics/N… Nontitle   2024       Candy      하나에도… Korean   Content/…
+     8 Seventeen_Lyrics/N… Nontitle   2024       Candy      기분이…… Korean   Content/…
+     9 Seventeen_Lyrics/N… Nontitle   2024       Candy      좋아질…… Korean   Content/…
+    10 Seventeen_Lyrics/N… Nontitle   2024       Candy      수    Korean   Content/…
+    # ℹ 6,408 more rows
+
+``` r
+#subset that only hold lyrics that are function words in English
+function_subset <- filter(lyric_wordtype, cont_func == "Function")
+function_subset
+```
+
+    # A tibble: 880 × 7
+       file                track_type album_year song_title word  language cont_func
+       <chr>               <chr>      <chr>      <chr>      <chr> <chr>    <chr>    
+     1 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… on    English  Function 
+     2 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… you   English  Function 
+     3 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… on    English  Function 
+     4 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… me    English  Function 
+     5 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… on    English  Function 
+     6 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… you   English  Function 
+     7 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… on    English  Function 
+     8 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… me    English  Function 
+     9 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… so    English  Function 
+    10 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… under English  Function 
+    # ℹ 870 more rows
+
+``` r
+#counting the lyrics that match the function word list:
+function_freq <- function_subset %>%
+  count(song_title, cont_func, sort = TRUE)
+function_freq
+```
+
+    # A tibble: 19 × 3
+       song_title                     cont_func     n
+       <chr>                          <chr>     <int>
+     1 Shining Diamond                Function     89
+     2 Ah Yeah                        Function     88
+     3 One to Thirteen                Function     82
+     4 Love Money Fame                Function     75
+     5 Left and Right                 Function     73
+     6 Eyes On You                    Function     70
+     7 April Shower                   Function     56
+     8 Super                          Function     55
+     9 I Don't Understand But I Luv U Function     48
+    10 Twenty                         Function     48
+    11 Fire                           Function     43
+    12 Fearless                       Function     33
+    13 Water                          Function     27
+    14 My My                          Function     26
+    15 Jam Jam                        Function     21
+    16 Rain                           Function     20
+    17 Kidult                         Function     12
+    18 F_ck My Life                   Function      8
+    19 Adore U                        Function      6
+
+``` r
+#checking that there aren't any function words labeled as content words:
+content_subset <- filter(lyric_wordtype, language == "English", cont_func == "Content/Other")
+content_subset
+```
+
+    # A tibble: 1,628 × 7
+       file                track_type album_year song_title word  language cont_func
+       <chr>               <chr>      <chr>      <chr>      <chr> <chr>    <chr>    
+     1 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… eyes  English  Content/…
+     2 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… eyes  English  Content/…
+     3 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… eyes  English  Content/…
+     4 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… eyes  English  Content/…
+     5 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… sweet English  Content/…
+     6 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… moon… English  Content/…
+     7 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… matt… English  Content/…
+     8 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… prom… English  Content/…
+     9 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… bpm   English  Content/…
+    10 Seventeen_Lyrics/N… Nontitle   2024       Eyes On Y… heart English  Content/…
+    # ℹ 1,618 more rows
+
+Interjections would also be classed as function words since they ‘fill’
+pauses and express feeling or reaction in an utterance. Interjections in
+the data were not included in the list of function words above but were
+left as part of the “Content/Other” category. There are a few lines of
+thinking behind this decision. Firstly, these interjections are not
+always included in the data in Latin script but in Hangul. This is true
+even when the title includes the interjections in English (i.e. the song
+“Ah Yeah” includes its name only in Hangul in the lyrics). Secondly, the
+opposite is frequently also true. There are non-English words that are
+written in Latin script. Scats and ‘whoops’ such as “darimdarimda” or
+“yuh” are sorted by the code as English because the translators of the
+songs transribed them using the Latin alphabet. It appears that these
+interjections are some third option, words serving an overlapping
+function in both languages. With these reasons in mind, they were not
+coded as function words for this data set.
+
+## Drawing Conclusions
+
+### What the Data Can Tell Us
+
+## Research Limitations & Future Directions

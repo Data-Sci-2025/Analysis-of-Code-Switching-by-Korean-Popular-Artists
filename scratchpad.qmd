@@ -67,6 +67,25 @@ lyrics = firstfiles |>
 
 colnames(lyrics) <- tolower(colnames(lyrics))
 lyrics
+
+
+
+
+term_freq <- lyricsdf %>%
+  count(song_title, word, sort = TRUE)
+
+term_freq
+
+
+term_freq_English <- term_freq |>
+  mutate(
+    word   = as.character(word),
+  language = case_when(
+  str_detect(word, "[a-zA-z 12345]") ~ "English",
+  str_detect(word, "[가-힣]") ~ "Korean",
+)) ->> term_freq_English
+
+term_freq_English
     
 ```
 

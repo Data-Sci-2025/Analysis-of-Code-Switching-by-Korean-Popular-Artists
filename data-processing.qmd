@@ -14,7 +14,7 @@ format: gfm
 
 ## Reading in the Data
 
-The code below shows the code I used to read in the data, where each song is its own csv file. I then created columns for the metadata associated with each song. 
+Below shows the code I used to read in the data, where each song is its own csv file. I then created columns for the metadata associated with each song. 
 
 ```{r}
 
@@ -98,7 +98,7 @@ lyrics
 ```
 ### Language Detection
 
-Now that each word can be evaluated separately, I can to detect the language of the word. Because Korean and English use separate alphabets, I could simply use stringr functions to detect Hangul versus Latin alphabet use in each word. A new column was created to hold this information on the language of the words. The mutated "lyrics" dataframe that holds this new column was renamed to "lyricsdf".
+Now that each word can be evaluated separately, I can detect the language of the word. Because Korean and English use separate alphabets, I simply used stringr functions to detect Hangul versus Latin alphabet use in each word. A new column was created to hold the information on the language of the words. The mutated "lyrics" dataframe that contains this new column was renamed to "lyricsdf".
 
 ```{r}
 #mutating the dataframe to detect language of rows of lyrics and create language column
@@ -119,7 +119,7 @@ lyricsdf
 ### Language Use Overview
 With the lyrics parsed and the language use detected, I could move on to considering the data as a whole. 
 
-The language breakdown of the lyrics altogether lean majority Korean, which is to be expected for music made by Koreans in Korea: 
+The language breakdown of the lyrics altogether lean majority Korean, which is to be expected for music made by Korean-speaking people: 
 
 ```{r}
 #to count the language breakdown of the lyrics overall
@@ -133,7 +133,7 @@ ggsave("Overall Language Use.png")
 
 ### Language Use by Album 
 
-However, it is more important to view the lyrics based off of **when** they were released. One of the goals of this research was to investigate whether language use changes over time and/or as their popularity rises. Both a total count view and a percentage view is provided so that the language comparison within each album is clear as well as across the language comparison across albums. 
+However, it is more important to view the lyrics based off of **when** they were released. One of the goals of this research was to investigate whether language use changes over time and/or as their popularity rises. Both a total count view and a percentage view is provided so that the language variation within and across each album. 
 
 ```{r}
 #code meant to count the language breakdown of lyrics by album
@@ -152,7 +152,7 @@ ggsave("Language Comparison by Album Year.png")
 ```
 ### Zooming in on Track Type
 
-Some nuance is lost in this zoomed out view, so I also sorted viewed the language use by song within each album. Then, I viewed the language use particularly of the "title" tracks of each album. A title track refers to the song that is mainly promoted from an album. This title track would have a music video, advertisements leading up to the album's release focusing on the track, and would be the song that is performed on weekly or year-end music shows. Functionally, a title track is treated differently by fans and artists alike, acting as the centerpiece to that album's concept, message, and (in most cases) the public, 'non-fan' image.
+Some nuance is lost in this zoomed out view, so I also sorted the language use by song within each album. Then, I viewed the language use particularly of the "title" tracks of each album. A title track refers to the song that is mainly promoted from an album. This title track would have a music video, advertisements leading up to the album's release focusing on the track, and would be the song that is performed on weekly or year-end music shows. Functionally, a title track is treated differently by fans and artists alike, acting as the centerpiece to that album's concept, message, and (in most cases) the public, 'non-fan' image. 
 
 ```{r}
 #sorting songs into albums:
@@ -201,7 +201,7 @@ ggplot(data=subset(latesttitle, !is.na(language)), aes(x = language, fill = lang
 
 ### English Highlights
 
-
+The data gets more interesting as we zoom into what English words are found in the songs. Below are snapshots of the English makeup of the four title tracks from the albums in this study:
 
 
 ```{r}
@@ -241,53 +241,63 @@ An overlook at the English lyrics of the title tracks shows an obvious higher fr
 Does the later releases include more complex English structures than their early counterparts? This is a trend that can be confirmed by looking closer at English **function words**. Function words signal the structural relationships that words have to one another and are generally quite lexically ambiguous. Examples of English function words would include articles 'the' and 'a', as well as prepositions, pronouns, conjunctions, and helping verbs. 
 
 ```{r}
-term_freq <- lyricsdf %>%
-  count(song_title, word, sort = TRUE)
+#long list of common function words in English
+stopwords <- c(
+  "a","about","above","across","after","again","against","all","almost",
+  "along","already","also","although","always","am","among","an","and",
+  "another","any","anybody","anyone","anything","anywhere","are","around",
+  "as","at","away","back","be","became","because","become","becomes",
+  "been","before","being","below","between","both","but","by","can",
+  "cannot","could","did","do","does","doing","done","down","during",
+  "each","either","else","enough","even","ever","every","everybody",
+  "everyone","everything","everywhere","few","fewer","for","from","further",
+  "had","has","have","having","he","her","here","hers","herself","him",
+  "himself","his","how","however","i","I", "if","in","inside","instead","into",
+  "is","it","its","itself","just","least","less","let","like","likely",
+  "little","long","may","me","might","more","most","mostly","much","must",
+  "my","myself","near","neither","never","no","nobody","none","nor","not",
+  "nothing","now","nowhere","of","off","often","on","once","one","only",
+  "onto","or","other","others","otherwise","our","ours","ourselves","out",
+  "outside","over","own","per","perhaps","please","quite","rather","really",
+  "said","same","seem","seemed","seeming","seems","several","shall","she",
+  "should","since","so","some","somebody","someone","something","sometimes",
+  "somewhere","soon","still","such","than","that","the","their","theirs",
+  "them","themselves","then","there","therefore","these","they","this",
+  "those","though","through","throughout","thus","to","together","too",
+  "toward","towards","under","until","up","upon","us","usually","very",
+  "via","was","we","well","were","what","whatever","when","whenever",
+  "where","wherever","whether","which","while","whilst","who","whoever",
+  "whom","whomever","whose","why","will","with","within","without","would",
+  "yes","yet","you","your","yours","yourself","yourselves"
+)
 
-term_freq
-
-
-term_freq_English <- term_freq |>
+#sorting the lyrics into function or content/other categories using the list above
+lyric_wordtype <- lyricdf |>
   mutate(
-    word   = as.character(word),
-  language = case_when(
-  str_detect(word, "[a-zA-z 12345]") ~ "English",
-  str_detect(word, "[가-힣]") ~ "Korean",
-)) ->> term_freq_English
+    cont_func = if_else(
+      word %in% stopwords,
+      "Function",
+      "Content/Other" ))
+lyric_wordtype
 
-term_freq_English
+#subset that only hold lyrics that are function words in English
+function_subset <- filter(lyric_wordtype, cont_func == "Function")
+function_subset
 
-function_words <- read_csv("function_words_200.csv")
-function_words |> rename("function_word" = "word")
-
-term_freq_English |>
-  mutate(
-    function_word = case_when(
-      str_match_all(word, [function_words]) ~ "Yes",
-      str_match_all(word, ![function_words) ~ "No"
-    )
-  )
-
-#song_tf_idf <- term_freq_English |>
- # bind_tf_idf(song_title, word, n)
+#counting the lyrics that match the function word list:
+function_freq <- function_subset %>%
+  count(song_title, cont_func, sort = TRUE)
+function_freq
 
 
-#counting the rows of word column
 
-
-#combining words to count their frequency
-
-
-function_words <- read_csv("function_words_200.csv")
-function_words |> rename("function_word" = "word")
-
-
+#checking that there aren't any function words labeled as content words:
+content_subset <- filter(lyric_wordtype, language == "English", cont_func == "Content/Other")
+content_subset
 
 ```
 
-
-Interjections would also be classed as function words since they 'fill' pauses and express feeling or reaction in an utterance. However, interjections 
-
+Interjections would also be classed as function words since they 'fill' pauses and express feeling or reaction in an utterance. Interjections in the data were not included in the list of function words above but were left as part of the "Content/Other" category. There are a few lines of thinking behind this decision. Firstly, these interjections are not always included in the data in Latin script but in Hangul. This is true even when the title includes the interjections in English (i.e. the song "Ah Yeah" includes its name only in Hangul in the lyrics). Secondly, the opposite is frequently also true. There are non-English words that are written in Latin script. Scats and 'whoops' such as "darimdarimda" or "yuh" are sorted by the code as English because the translators of the songs transribed them using the Latin alphabet. It appears that these interjections are some third option, words serving an overlapping function in both languages. With these reasons in mind, they were not coded as function words for this data set.    
 
 
 ## Drawing Conclusions
