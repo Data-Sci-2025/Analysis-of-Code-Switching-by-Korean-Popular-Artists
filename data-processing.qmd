@@ -205,24 +205,29 @@ ggplot(data=subset(lovemoneyfame, !is.na(language)), aes(y = word, fill = word))
   geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Love, Money, Fame'") + theme(axis.title.y=element_blank(),
          axis.text.y=element_blank(),
         axis.ticks.y=element_blank())
+ggsave("English for 2024 Title.png")
 
 #visualization for English lyrics in 2023 title track: 
 ggplot(data=subset(super, !is.na(language)), aes(y = word, fill = word)) +
   geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Super'") + theme(axis.title.y=element_blank(),
          axis.text.y=element_blank(),
         axis.ticks.y=element_blank())
+ggsave("English for 2023 Title.png")
 
 #visualization for English lyrics in 2020 title track: 
 ggplot(data=subset(leftright, !is.na(language)), aes(y = word, fill = word)) +
   geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Left and Right'") + theme(axis.title.y=element_blank(),
          axis.text.y=element_blank(),
         axis.ticks.y=element_blank())
+ggsave("English for 2020 Title.png")
 
 #visualization for English lyrics in 2015 title track: 
 ggplot(data=subset(adoreu, !is.na(language)), aes(y = word, fill = word)) +
   geom_bar(position = "dodge") + xlab("Count") + ylab("English Words") + labs(title= "English Lyrics for 'Adore U'") + theme(axis.title.y=element_blank(),
          axis.text.y=element_blank(),
         axis.ticks.y=element_blank())
+ggsave("English for 2015 Title.png")
+
 ```
 
 
@@ -285,3 +290,24 @@ content_subset
 
 Interjections would also be classed as function words since they 'fill' pauses and express feeling or reaction in an utterance. Interjections in the data were not included in the list of function words above but were left as part of the "Content/Other" category.
 
+```{r}
+ggplot(data=subset(lyric_wordtype, !is.na(language)), aes(x = album_year, fill = cont_func)) +
+  geom_bar(position = "fill") + xlab("Album Year") + ylab("Word Type") + labs(fill = "Language") + labs(title = "Word Type by Album Year")
+
+ggsave("Word Type by Album Year.png")
+```
+
+```{r}
+ggplot(data=subset(function_subset), aes(x = album_year, fill = cont_func)) +
+  geom_bar(position = "dodge") + xlab("Count") + ylab("Function Words") + labs(title= "English Function Words by Year")
+ggsave("Function Word Count by Album.png")
+
+
+
+
+ggplot(data=subset(function_subset), aes(x = album_year, fill = word)) +
+  geom_bar(position = "dodge") + xlab("Count") + ylab("Function Wordss") + labs(title= "English Function Words by Year") + theme(axis.title.y=element_blank(),
+         axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+ggsave("English Function Words by Album Year.png")
+```
