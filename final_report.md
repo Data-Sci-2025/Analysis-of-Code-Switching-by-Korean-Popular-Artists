@@ -1,7 +1,3 @@
----
-format: gfm
----
-
 ## Introduction
 
 Seventeen is a boy group that holds the current record for best-selling album from a Korean artist with their 2023 album *FML*. They have released music since releasing FML and have a long list of frequent (annual) releases since their 2015 debut a decade ago. They are self-producing artists, involved in music production, choreographing, and songwriting. 
